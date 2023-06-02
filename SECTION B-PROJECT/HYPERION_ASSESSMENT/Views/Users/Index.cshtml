@@ -1,0 +1,101 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@model IEnumerable<HYPERION_ASSESSMENT.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+ 
+<link href="~/css/site.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+
+ <h4>New Users</h4>
+ 
+
+  
+<p>
+    <a asp-action="Create" class="btn btn-success">Add New User</a>
+</p>
+
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
+{
+    <b>Search By:&nbsp;&nbsp;</b>      
+    @Html.RadioButton("SearchBy", "LASTNAME",true)<text>&nbsp;</text><text>Last Name</text>
+    @Html.RadioButton("SearchBy", "EMAIL")<text>&nbsp;</text><text>E-Mail</text>
+    <div class="pull-right">
+    @Html.TextBox("Search")<text>&nbsp;</text>
+    <input type="submit" value="Search" class="btn btn-primary"/>
+    </div>
+}
+
+<link href="~/css/site.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.js"></script> 
+<link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+
+ 
+<tr>
+    <th>
+        @Html.ActionLink("","Index", new {SearchBy=_httpContextAccessor.HttpContext.Request.Query["SearchBy"],Search=_httpContextAccessor.HttpContext.Request.Query["Search"]})
+
+    </th>
+     
+</tr>
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="5">
+            <h5 style="color:#ff0000;">No rows match Search Criteria !! </h5>
+        </td>
+    </tr>
+}
+
+<table class="table">
+   
+    <thead>      
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phonenumber)
+            </th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+   
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="Email">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td id="Firstname">
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td id ="Lastname">
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td id="Phonenumber">
+                    @Html.DisplayFor(modelItem => item.Phonenumber)
+                </td>
+                <td>
+                  
+                   @* <a onclick="showInPopUp('@Url.Action("Edit","Users",new{id=item.UserId},Context.Request.Scheme)','Update User')" class="btn btn-success">Edit</a> |*@
+                     <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

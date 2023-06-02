@@ -1,0 +1,88 @@
+﻿@model HYPERION_ASSESSMENT.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<style type="text/css">
+
+    fieldset {
+        padding-left: 400px;
+        padding-top: 60px;
+    }
+
+    #footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+    }
+</style>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("Login", "Users", FormMethod.Post))
+{
+    <hr />
+    <fieldset>
+        <legend>Login </legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+        <table>
+            <tr>
+                <td>Email</td>
+                <td>&nbsp;</td>
+                <td>
+                    @Html.TextBoxFor(a => a.Email)
+                    <br class="auto-style2" />
+                    @Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    <br class="auto-style2" />
+                <td />
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>&nbsp;</td>
+                <td>
+                    @Html.PasswordFor(a => a.Password)
+                    <br class="auto-style2" />
+                    @Html.ValidationMessageFor(a => a.Password, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br class="auto-style2" />
+                <td />
+            </tr>
+            <tr>
+                <td></td>
+            <tr>
+                <td>
+                    <br class="auto-style2" />
+                <td />
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Login" class="btn btn-primary" />  
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </fieldset>
+}
+
+

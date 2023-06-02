@@ -1,0 +1,30 @@
+﻿@model HYPERION_ASSESSMENT.Models.Course
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Course Details</h4>
+
+<div>
+   
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Coursename)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Coursename)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CourseId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,87 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@model IEnumerable<HYPERION_ASSESSMENT.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Students List</h4>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">New Student</a>
+</p>
+@using (Html.BeginForm("Index", "Students", FormMethod.Get))
+{
+    <b>Search By:&nbsp;&nbsp;</b>
+    @Html.RadioButton("SearchBy", "LASTNAME",true)
+
+    <text>&nbsp;</text>
+
+    <text>Last Name</text>
+    @Html.RadioButton("SearchBy", "Country")
+
+    <text>&nbsp;</text>
+
+    <text>Country</text>
+    <div class="pull-right">
+        @Html.TextBox("Search")<text>&nbsp;</text>
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+}
+<tr>
+    <th>
+        @Html.ActionLink("","Index", new {SearchBy=_httpContextAccessor.HttpContext.Request.Query["SearchBy"],Search=_httpContextAccessor.HttpContext.Request.Query["Search"]})
+
+    </th>
+
+</tr>
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="5">
+            <h5 style="color:#ff0000;">No rows match Search Criteria !! </h5>
+        </td>
+    </tr>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Studentname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Studentname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StudId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StudId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StudId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
