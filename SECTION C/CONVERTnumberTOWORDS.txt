@@ -1,41 +1,77 @@
-function sayNumber(num) {
-    if (num < 0)
-      return false;
-	 single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
-	 double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
-	 below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-	if (num === 0) return 'Zero'
-	function convert(num) {
-		word = ""
-		if (num < 10) {
-			word = single_digit[num] + ' '
-		}
-		else if (num < 20) {
-			word = double_digit[num - 10] + ' '
-		}
-		else if (num < 100) {
-			rem = convert(num % 10)
-			word = below_hundred[(num - num % 10) / 10 - 2] + ' ' + rem
-		}
-		else if (num < 1000) {
-			word = single_digit[Math.trunc(num / 100)] + ' Hundred ' + convert(num % 100)
-		}
-		else if (num < 1000000) {
-			word = convert(parseInt(num / 1000)).trim() + ' Thousand ' + convert(num % 1000)
-		}
-		else if (num < 1000000000) {
-			word = convert(parseInt(num / 1000000)).trim() + ' Million ' + convert(num % 1000000)
-		}
-		else {
-			word = convert(parseInt(num / 1000000000)).trim() + ' Billion ' + convert(num % 1000000000)
-		}
-		return word
-	}
-	 result = convert(num) 
-	return result.trim()+'.'
+const NUMBER_WORDS = {
+0: "Zero",
+1: "One",
+2: "two",
+3: "three",
+4: "four",
+5: "five",
+6: "six",
+7: "seven",
+8: "eight",
+9: "nine",
+10: "Ten",
+11: "Eleven",
+12: "Twelve",
+13: "Thirteen",
+14: "Fourteen",
+15: "Fifteen",
+16: "Sixteen",
+17: "Seventeen",
+18: "Eighteen",
+19: "Nineteen",
+20: "Twenty",
+30: "Thirty",
+40: "Forty",
+50: "Fifty",
+60: "Sixty",
+70: "Seventy",
+80: "Eighty",
+90: "Ninety"
+};
+function sayNumber(n)
+ {
+if (n < 0 || n > 999999999) {
+throw new Error("Number out of range");
+}
+if (n in NUMBER_WORDS) {
+return NUMBER_WORDS[n]+".";
+}
+let text = "";
+if (n >=1000000) {
+	 
+text += sayNumber(Math.floor(n / 1000000)).replace('.',' ') + "million";
+	 text+=",";	
+	  
+n %= 1000000;
+
+ }
+	
+if (n >= 1000) {
+text += sayNumber(Math.floor(n / 1000)).replace('.',' ')+ "thousand ";
+ n %= 1000;
+
 }
 
-var num = 83309874
-console.log("Number n = " +num)
-console.log("In word: "+sayNumber(num));
+if (n >= 100) {
+text += sayNumber(Math.floor(n / 100)).replace('.',' ') + "hundred ";
+n %= 100;
+}
+if (n > 0) {
+if (text !== "") {
+text+= "and ";
+}
+if (n in NUMBER_WORDS) {
+text += NUMBER_WORDS[n];	 
+} else {
+text +=NUMBER_WORDS[Math.floor(n / 10) * 10] + "-";
+text += NUMBER_WORDS[n % 10];
+}
+}
+	text=text.trim();	  
+return text.charAt(0).toUpperCase() +text.slice(1).toLowerCase()+".";
+	  
+	
+}
+
+
  
